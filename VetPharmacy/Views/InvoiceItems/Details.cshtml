@@ -1,0 +1,42 @@
+﻿@model VetPharmacy.InvoiceItem
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>InvoiceItem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Invoice.InvoiceId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Invoice.InvoiceId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shipment.ShipmentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shipment.ShipmentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceItemId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

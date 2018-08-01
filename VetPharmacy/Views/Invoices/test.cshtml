@@ -1,0 +1,93 @@
+﻿@model VetPharmacy.Medicine
+@{
+    ViewBag.Title = "test";
+   
+
+}
+
+
+<br>
+<br>
+
+<br>
+
+<br>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Scripts/jquery-ui.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+
+
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+
+@*<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>*@    
+@*<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">*@
+@*@Html.TextBoxFor(model => model.MedicineName, new { @class = "form-control", onblur = "testt(value)" })*@
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        //var countries = [
+        //    "Afghanistan",
+        //   "Albania",
+        //   "Algeria",
+        //   "AmericanSamoa",
+        //   "Andorra",
+        //   "Angola",
+        //   "Anguilla",
+        //   "Antigua&Barbuda",
+        //   "Argentina",
+        //   "Armenia",
+        //   "Aruba",
+        //   "Australia",
+        //   "Austria"];
+
+        
+        //$('#MedicineName').autocomplete({
+        //    source: "/Invoices/AutoComplete"
+        //})
+      ///--------------------------------------------------
+        //$("#MedicineName").autocomplete({
+            
+        //    source: function (request, response) {
+        //        $.ajax({
+        //            minLength: 9,
+                    
+        //            url: "/Invoices/AutoComplete",
+        //            type: "POST",
+        //            dataType: "json",
+        //            data: { Prefix: request.term },
+        //            success: function (data) {
+        //                for (x = 0; x < data.count; x++)
+        //                {
+        //                    alert(data[x]);
+        //                }
+        //                response($.map(data, function (item) {
+        //                    return { label: item.Name, value: item.Name };
+        //                }))
+
+        //            }
+        //        })
+        //    },
+        //    messages: {
+        //        noResults: '',
+        //        results: function (resultsCount) { }
+        //    }
+        //});  
+        ///--------------------------------------------------
+        $('#MedicineName').autocomplete({
+            source: '/Invoices/GetMedicineName'
+        });
+    })
+  
+</script>
+<input type="text" id="MedicineName" class="form-control"    />
+
+<br>
+<br>
+<br><br><br>
+    }

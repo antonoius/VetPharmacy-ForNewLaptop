@@ -1,0 +1,98 @@
+﻿@model VetPharmacy.Models.InvoiceAndInvoiceItem
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@using (Html.BeginForm("Save", "Invoices",FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    <table class="table"  id="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.invoice_item.Invoice_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.invoice_item.Item_shipment_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.invoice_item.Quantity)
+            </th>
+
+        </tr>
+        </table>
+
+        <input type="submit" value="Save" class="btn btn-default" />
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+
+<input type="button" id="Add" value="Add" class="btn btn" onclick="AddItem()" />
+<input type="button" id="ShowData" value="ShowData" class="btn btn" onclick="PostData()" />
+<script type="text/javascript">
+    function AddItem()
+    {
+        var url = "@Url.Action("AddItem")";
+        $.ajax({
+            type: "get",
+            url: url,
+            success: function(data)
+            {
+                console.log(data);
+                $("#table").append(data);
+            }
+        }
+            )
+    }
+    function PostData()
+    {
+        var ItemList = [];
+        $("#table tr").each(function () {
+            if ($(this).find("#invoice_item_Invoice_id").val() !== undefined) {
+             //   alert($(this).find("#invoice_item_Invoice_id").val());
+                var x = {
+                
+                    Invoice_id: $(this).find("#invoice_item_Invoice_id").val(),
+                    Item_shipment_id: $(this).find("#invoice_item_Item_shipment_id").val(),
+                    Quantity: $(this).find("#invoice_item_Quantity").val()
+                }
+                
+                ItemList.push(x);
+                
+            }
+        })
+         ItemList = JSON.stringify({ 'ItemList': ItemList });
+        console.log(ItemList);
+
+       
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: 'http://localhost:64304/Invoices/SaveJson',
+            data: ItemList,
+            success: function (data) {
+               
+               // $('#result').html('"PassThings()" successfully called.');
+                window.location.href = '@Url.Action("Index","InvoiceItems")';
+            },
+            failure: function (data) {
+                alert(data);
+            }
+        });
+    }
+</script>
+
+
+

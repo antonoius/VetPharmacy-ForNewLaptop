@@ -1,0 +1,66 @@
+﻿@model VetPharmacy.Shipment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Shipment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Medicine.MedicineName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medicine.MedicineName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.OrderId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.OrderId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OriginalPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OriginalPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TradPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TradPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentRemainderAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentRemainderAmount)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ShipmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

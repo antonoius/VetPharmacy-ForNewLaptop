@@ -1,0 +1,18 @@
+﻿@model VetPharmacy.Models.InvoiceAndInvoiceItem
+<tr class="table">
+    <td>
+        @Html.EditorFor(model => model.invoice_item.Invoice_id , new { @class = "form-control"})
+    </td>
+    <td>
+        @Html.EditorFor(model => model.invoice_item.Item_shipment_id, new { @class = "form-control" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.invoice_item.Quantity, new { @class = "form-control" })
+    </td>
+
+</tr>
+<input type="button" id="AddInvItem" value="AddItem" onclick="AddTable()" class="btn btn-default" />
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+

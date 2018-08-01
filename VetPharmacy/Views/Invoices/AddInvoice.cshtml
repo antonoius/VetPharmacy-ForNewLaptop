@@ -1,0 +1,493 @@
+﻿@model VetPharmacy.Models.InvoiceAndInvoiceItem
+@{
+    ViewBag.Title = "AddInvoice";
+}
+<head>
+    <link href="~/Style/MyStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <link href="~/Scripts/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/jquery-1.3.1.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>  
+</head>
+
+<h2>Index</h2>
+<table class="table" id="table1">
+    <tbody>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.invoice.InvoiceTotalMoney)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.invoice.InvoiceDiscount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.invoice.InvoiceDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.invoice.InvoiceItemNumber)
+            </th>
+
+        </tr>             
+        <tr>
+            <th>
+                @Html.TextBoxFor(model => model.invoice.InvoiceTotalMoney, new { @class = "form-control", @readonly = "readonly" })
+            </th>
+            <th>
+                @Html.TextBoxFor(model => model.invoice.InvoiceDiscount, new { @class = "form-control",onblur= "Quantity_cal(0)" })
+            </th>
+            <th>
+                @Html.TextBoxFor(model => model.invoice.InvoiceDate, new { @class = "form-control", @readonly = "readonly" })
+            </th>
+            <th>
+                @Html.TextBoxFor(model => model.invoice.InvoiceItemNumber, new { @class = "form-control", @readonly = "readonly" })
+            </th>
+        </tr>
+    </tbody>
+    </table>
+    <h2>Add Invoice Item</h2>
+    <table class="table" id="table2"  >
+       
+            <tr>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.invoice_item.Invoice_id)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.medicine.MedicineName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.invoice_item.Item_shipment_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.invoice_item.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.invoice_item.Shipment.TradPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.invoice_item.ITemCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.invoice_item.Shipment.Medicine.MedicineCapacity)
+                </th>
+                <th>
+                    <text>Delete</text>
+                </th>
+
+            </tr>
+        
+    </table>
+
+<script type="text/javascript">
+    @*<td>@Html.TextBoxFor(model => model.invoice_item.Invoice_id, new { @class = "form-control" ,onblur="test()"  })</td>' +*@
+    var counter = 1;
+    var count = 1;
+    function AddTable() {
+        $('table[id=table2] tbody').append(
+            '<tr id=' + counter + '>'+
+            '<td>@Html.TextBoxFor(model => model.medicine.MedicineName, new { @class = "form-control" ,onblur= "GetAllData()" })</td>' +
+            '<td><select onchange="GetShipmentInfo(this.value)" onfocus="this.selectedIndex =-1" onblur="if(this.selectedIndex==-1){this.selectedIndex=0};" class="form-control" id="Shipment_Id" name="Shipment Id"></td>' +
+            '<td>@Html.TextBoxFor(model => model.invoice_item.Quantity, new { @class = "form-control",@type="number", onchange = "Quantity_cal(this.value)", @autocomplete = "off" })</td>' +
+            '<td>@Html.TextBoxFor(model => model.invoice_item.Shipment.TradPrice,new { @class= "form-control" ,@readonly="readonly"})</td>' +
+            '<td>@Html.TextBoxFor(model => model.invoice_item.ITemCost,new { @class= "form-control" ,@readonly="readonly",style= "background-color: #A9F5BC" })</td>' +
+            '<td>@Html.TextBoxFor(model => model.invoice_item.Shipment.Medicine.MedicineCapacity,new { @class= "form-control" ,@readonly="readonly",@AutoCompleteType = "Disabled"})</td>' +
+            '<td><input type="button" id=' + counter + ' value="Delete" onclick="DeleteItemRow(' + counter + ')" class="btn btn-default" /></td></tr>'
+            )
+        $('input[id="medicine_MedicineName"]').autocomplete({
+            source: '/Invoices/GetMedicineName'
+
+
+        });
+       // $("#invoice_item_Quantity").val(0);
+        counter++;
+
+    };
+    function GetShipmentData() {
+
+        //$("table[id='table2'] input[id='invoice_item_Item_shipment_id']").each(function () {
+        $("tr[id=" + count + "] td input[id='Shipment_Id']").each(function () {
+
+            var temp_shipment_id = $(this).val();
+            //   alert(temp_shipment_id);
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                type: 'GET',
+                url: 'http://localhost:64304/Invoices/GetUint',
+                data: { 'temp_shipment_id': temp_shipment_id },
+                success: function (data) {
+                           alert(data);
+                    $("tr[id=" + count + "] td input[id='invoice_item_Shipment_Medicine_MedicineCapacity']").val(data);
+                    count++;
+                },
+                failure: function (data) {
+                    alert("errer");
+                    console.log(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert(textStatus + "\n" + errorThrown);
+                }
+
+            });
+            //$.ajax({
+
+            //    contentType: "application/json; charset=utf-8",
+            //    type: 'GET',
+            //    url: 'http://localhost:64304/Invoices/GetShipmentDate',
+            //    data: { 'temp_shipment_id': temp_shipment_id },
+            //    success: function (data) {
+            //        //  alert(data);
+            //        $("tr[id=" + count + "] td input[id='invoice_item_Shipment_TradPrice']").val(data);
+            //        // $('#result').html('"PassThings()" successfully called.');
+
+
+
+            //    },
+            //    failure: function (data) {
+            //        alert("errer");
+            //        console.log(data);
+            //    },
+            //    error: function (xhr, textStatus, errorThrown) {
+            //        alert(textStatus + "\n" + errorThrown);
+            //    }
+            //});
+
+
+        });
+    };
+    function DeleteItemRow(counter) {
+
+        $("table[id='table2'] tr[id=" + counter + "]").remove();
+        Quantity_cal("asasa");
+
+    }
+    function Quantity_cal(counter)
+    {
+        var errort = true;
+        var UnitCap = [];
+        var UnitQuat = [];
+        var ItemPrice = [];
+        var available_quantity = [];
+        var Cost = [];
+        var TotalCost=0;
+        //  alert(counter);
+        $("table[id='table2'] tr input[id='invoice_item_Shipment_Medicine_MedicineCapacity']").each(function () {
+            UnitCap.push($(this).val());
+        })
+        $("table[id='table2'] tr input[id='invoice_item_Quantity']").each(function () {
+            UnitQuat.push($(this).val());
+        })
+        $("table[id='table2'] tr input[id='invoice_item_Shipment_TradPrice']").each(function () {
+            ItemPrice.push($(this).val());
+        })
+        $("table[id='table2'] tr select[id='Shipment_Id']").each(function () {
+
+            // qw = $(this).val().split('/')[0];
+            //  alert($(this).val().split('/')[1]);
+            var t = parseInt($(this).val().split('/')[1], 10);
+            available_quantity.push(t);
+        })
+
+        for (x = 0; x < UnitCap.length; x++) {
+            if (UnitQuat[x] >available_quantity[x]) {
+                errort = false;
+             //   alert(UnitQuat[x] +"/"+ available_quantity[x])
+                alert("الكميه المحدده اكبر من كميه الشحنه .");
+                
+                $("#invoice_InvoiceTotalMoney").val(0);
+
+            }
+            else {
+           //     alert(UnitQuat[x] + "/" + available_quantity[x])
+                Cost.push((UnitQuat[x] / UnitCap[x]) * ItemPrice[x]);
+            }
+
+
+        }
+
+        var temp_22=0;
+        for (x = 0; x < UnitCap.length; x++) {
+            TotalCost =TotalCost+ Cost[x];
+        }
+        var dis = $("#invoice_InvoiceDiscount").val();
+        $("#invoice_InvoiceTotalMoney").val(TotalCost-dis);
+        //alert($("input[id='invoice_item_Quantity']").val());
+        $("#invoice_InvoiceItemNumber").val(UnitCap.length);
+
+        $("#invoice_item_ITemCost").css({ "background-color": "#A9F5BC" });
+        $("table[id='table2'] tr input[id='invoice_item_ITemCost']").each(function () {
+           // UnitQuat.push($(this).val());
+
+            $(this).val(Cost[temp_22]);
+            temp_22++;
+        })
+        return errort;
+    }
+    function LoadMedicineData(value) {
+        var Shipment_data = [];
+        var ww;
+        $.ajax({
+
+            contentType: "application/json; charset=utf-8",
+            type: 'GET',
+            url: 'http://localhost:64304/Invoices/GetMedicineId',
+            data: { value },
+            async: false,
+            success: function (data) {
+                //   alert(data);
+
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    type: "get",
+                    url: 'http://localhost:64304/Invoices/GetMedicineShipments',
+                    data: { 'data': data },
+                    async: false,
+                    success: function (dataq) {
+                        console.log(dataq);
+
+                        //    opt = '<option id="1">' + data+ '</option>';
+                        //   $("#Shipment_Id").val(data);
+                     //   var parsed = JSON.parse(dataq);
+
+
+                        Shipment_data= dataq;
+
+                       // return JSON.parse( dataq);
+
+                          //  alert(data[a]);
+
+                    }
+                })
+
+
+                },
+            failure: function (data) {
+                alert("errer");
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert("Name Not Found");
+            }
+        })
+      //  alert(Shipment_data);
+        return Shipment_data;
+    }
+    function GetMedicineCapacity(value)
+    {
+        var q;
+       // alert(value);
+       // alert($("#Shipment_Id").closest('td').index());
+        $.ajax({
+            contentType: "application/json; charset=utf-8",
+            type: 'GET',
+            url: 'http://localhost:64304/Invoices/GetUint',
+            data: { value },
+            async: false,
+            success: function (data) {
+                  //   alert(data);
+              //  $("tr[id=" + count + "] td input[id='invoice_item_Shipment_Medicine_MedicineCapacity']").val(data);
+                q = data;
+            //    count++;
+            },
+            failure: function (data) {
+                alert("errer");
+                console.log(data);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert(textStatus + "\n" + errorThrown);
+            }
+
+        });
+        return q;
+    }
+    function GetAllData()
+    {
+        var countt = 1;
+        //$(this).find("input[id='medicine_MedicineName']").val() != null &&$(this).find("select[id='Shipment_Id']").val() == null &&
+        $("table[id='table2'] tbody tr ").each(function () {
+            if (  $(this).find("input[id='invoice_item_Quantity']").val()!=null&&$(this).find("input[id='medicine_MedicineName']").val() != "") {
+
+            //    alert($(this).find("input[id='medicine_MedicineName']").val());
+                $(this).find("select[id='Shipment_Id']").empty();
+                var dataa = [];
+                dataa=LoadMedicineData($(this).find("input[id='medicine_MedicineName']").val());
+                $(this).find("input[id='invoice_item_Shipment_TradPrice']").val(dataa[0].TradPrice);
+               for (q = 0; q < dataa.length; q++) {
+                   ($(this).find("select[id='Shipment_Id']").append(new Option(dataa[q].ShipmentRemainderAmount, dataa[q].ShipmentId + "/" + dataa[q].ShipmentRemainderAmount)));
+               }
+
+
+                var dataa2 = GetMedicineCapacity($(this).find("input[id='medicine_MedicineName']").val());
+                $(this).find("input[id='invoice_item_Shipment_Medicine_MedicineCapacity']").val(dataa2);
+
+            }
+            countt++;
+        })
+    }
+    function GetShipmentInfo(value)
+    {
+
+        Quantity_cal("aa");
+
+    }
+    function test()
+    {
+
+    }
+    function SubmetData()
+    {
+
+        if (Quantity_cal("asasa") == false ) {
+            return;
+        }
+        if ($("#invoice_InvoiceItemNumber").val() == 0)
+        {
+            alert("لا يوجد اصناف في الفتورة .");
+            return;
+        }
+        if ($("#invoice_InvoiceTotalMoney").val() == 0) {
+            alert("لا يوجد اصناف في الفتورة .");
+            return;
+        }
+        var date = new Date();
+        var current_date = date.toJSON();
+        $("#invoice_InvoiceDate").val(current_date);
+        var InvoiceType;
+        var InvoiceItemsToSubmet = [];
+
+        if ($("#invoice_InvoiceTotalMoney").val() > 0)
+        {
+            InvoiceType = 1;
+        }
+        else
+        {
+            InvoiceType = 2;
+        }
+        var InvoiceToSubmet = {
+            InvoiceTotalMoney: $("#invoice_InvoiceTotalMoney").val(),
+            InvoiceDiscount: $("#invoice_InvoiceDiscount").val(),
+            InvoiceDate: $("#invoice_InvoiceDate").val(),
+            InvoiceItemNumber: $("#invoice_InvoiceItemNumber").val(),
+            InvoiceType_id:InvoiceType
+        }
+        console.log(InvoiceToSubmet);
+        var DataFromServerToSubmet =[];
+        $.ajax({
+
+            type: 'POST',
+            url: 'http://localhost:64304/Invoices/SubmetInvoice',
+            data: { InvoiceToSubmet },
+            async: false,
+            success: function (data) {
+                DataFromServerToSubmet = data;
+                InvoiceItemsToSubmet = GetItemsDataFromTable(DataFromServerToSubmet);
+             //   alert(data);
+                $.ajax( {
+                    type: 'POST',
+                    url: 'http://localhost:64304/Invoices/SubmetInvoiceItems',
+                    async: false,
+                    data: { InvoiceItemsToSubmet },
+                            success: function (data) {
+                                alert(data);
+                                //   location.reload();
+                                $("table[id='table2'] tbody tr ").each(function () {
+                                    if ($(this).find("input[id='invoice_item_Quantity']").val() != null && $(this).find("input[id='medicine_MedicineName']").val() != "") {
+
+                                        $(this).empty();
+                                    }
+
+                                })
+                                    Quantity_cal("asa");
+
+
+                            },
+                    failure: function (data) {
+                        alert("errer");
+                        console.log(data);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert(textStatus + "\n" + errorThrown);
+                    }
+
+                });
+            },
+            failure: function (data) {
+                alert("errer");
+                console.log(data);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert(textStatus + "\n" + errorThrown);
+            }
+
+        });
+
+    }
+    function GetItemsDataFromTable( Invoice_id)
+        {
+        var InvoiceItemsToSubmet2 = [];
+            $("table[id='table2'] tbody tr ").each(function () {
+                if ($(this).find("input[id='invoice_item_Quantity']").val()!=null&&$(this).find("input[id='medicine_MedicineName']").val() != "") {
+                    var t = parseInt($(this).find("select[id='Shipment_Id']").val().split('/')[0], 10);
+
+                    var InvoiceItem = {
+                        Item_shipment_id:t,
+                        Quantity:$(this).find("input[id='invoice_item_Quantity']").val(),
+                        Invoice_id:Invoice_id,
+                        ITemCost:$(this).find("input[id='invoice_item_ITemCost']").val()
+                    }
+                    InvoiceItemsToSubmet2.push(InvoiceItem);
+                }
+            })
+            return InvoiceItemsToSubmet2;
+        }
+
+</script>
+<input type="button" id="AddInvItem" value="AddItem" onclick="AddTable()" class="btn btn-default" />
+<input type="button" id="Submet Data" value="calculat" onclick="SubmetData()" class="btn btn-default" />
+<input type="text" id="Country_Name" class="form-control"  />
+@*<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<link href="~/Scripts/jquery-ui.css" rel="stylesheet" />*@
+<script type="text/javascript">
+
+    //var countries = [
+    //            "Afghanistan",
+    //           "Albania",
+    //           "Algeria",
+    //           "AmericanSamoa",
+    //           "Andorra",
+    //           "Angola",
+    //           "Anguilla",
+    //           "Antigua&Barbuda",
+    //           "Argentina",
+    //           "Armenia",
+    //           "Aruba",
+    //           "Australia",
+    //           "Austria"];
+
+    //$('#Country_Name').autocomplete({
+    //    source: countries
+    //})
+    $(document).ready(function () {
+     //   $("#table2").attr('border', '2');
+      
+  
+        var date = new Date();
+        var current_date = date.toJSON();
+        $("#invoice_InvoiceDate").val(current_date);
+
+        $("#invoice_InvoiceDiscount").val(0);
+        $("#invoice_InvoiceTotalMoney").css({ "background-color": "#A9F5BC" });
+        AddTable();
+        //       $("#invoice_item_ITemCost").css({ "background-color": "#A9F5BC" });
+
+    })
+
+
+</script>  
+<br>
+
