@@ -10,6 +10,7 @@ namespace VetPharmacy.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            ContextKey = "VetPharmacy.VetPharmaDB";
         }
 
         protected override void Seed(VetPharmacy.VetPharmaDB context)

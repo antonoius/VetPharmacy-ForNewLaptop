@@ -1,5 +1,6 @@
 namespace VetPharmacy
 {
+    using Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -35,5 +36,7 @@ namespace VetPharmacy
         public virtual Medicine Medicine { get; set; }
 
         public virtual Order Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SaleMethod> SaleMethods { set; get; }
     }
 }

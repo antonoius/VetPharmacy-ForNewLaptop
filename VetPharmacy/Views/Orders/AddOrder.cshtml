@@ -1,4 +1,4 @@
-﻿
+﻿@model VetPharmacy.Models.OrderComponent
 @{
     ViewBag.Title = "AddOrder";
 }
@@ -17,11 +17,27 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 </head>
-<table class="table" id="table10">
+<table class="table" id="table">
     <tbody>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.order.OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.order.OrderTotalMoney)
+            </th>
+
+
+        </tr>
+        <tr>
+            <th>
+                @Html.TextBoxFor(model => model.order.OrderDate, new { @class = "form-control", @readonly = "readonly" })
+            </th>
+            <th>
+                @Html.TextBoxFor(model => model.order.OrderTotalMoney, new { @class = "form-control" })
+            </th>
 
         </tr>
     </tbody>
 </table>
-
+<h2>Add Shipment</h2>

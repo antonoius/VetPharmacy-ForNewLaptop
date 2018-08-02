@@ -7,13 +7,13 @@ namespace VetPharmacy.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class add_entity_to_medicine_table : IMigrationMetadata
+    public sealed partial class AddSaleMethod : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(add_entity_to_medicine_table));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddSaleMethod));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807242333158_add_entity_to_medicine_table"; }
+            get { return "201808020155345_Add SaleMethod"; }
         }
         
         string IMigrationMetadata.Source

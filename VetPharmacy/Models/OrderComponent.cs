@@ -11,12 +11,14 @@ namespace VetPharmacy.Models
         public Shipment shipment { set; get; }
         public Medicine medicine { set; get; }
         public Supplier supplier { set; get; }
+        public SaleMethod salemethod { set; get; }
         public OrderComponent()
         {
             supplier = new Supplier();
             order = new Order();
             shipment = new Shipment();
             medicine = new Medicine();
+            salemethod = new SaleMethod();
         }
     }
 }
