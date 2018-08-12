@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-  
 }
 
 <h2>Index</h2>
@@ -19,6 +18,12 @@
             @Html.DisplayNameFor(model => model.MedicineName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.IsWholeSale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MedicineCapacity)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Comment)
         </th>
         <th></th>
@@ -33,6 +38,12 @@
             @Html.DisplayFor(modelItem => item.MedicineName)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.IsWholeSale)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MedicineCapacity)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
         <td>
@@ -44,30 +55,3 @@
 }
 
 </table>
-<script type="text/javascript">
-    $(document).ready(function(){
-
-        $("#CityName").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: "http://localhost:64304/Invoices/AutoComplete",
-                    type: "POST",
-                    dataType: "json",
-                    data: { Prefix: request.term },
-                    success: function (data) {
-                        response($.map(data, function (item) {
-                            return { label: item.CityName, value: item.CityName };
-                        }))
-
-                    }
-                })
-            },
-            messages: {
-                noResults: "", results: ""
-            }
-        });
-    })
-</script>
-
-<input type="text" id="CityName" class="form-control" />
- 

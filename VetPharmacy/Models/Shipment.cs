@@ -29,6 +29,7 @@ namespace VetPharmacy
         public double ShipmentRemainderAmount { get; set; }
 
         public int? ShipmentMedicine_id { get; set; }
+        public double? WholesalePrice { set; get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceItem> InvoiceItems { get; set; }
@@ -36,7 +37,6 @@ namespace VetPharmacy
         public virtual Medicine Medicine { get; set; }
 
         public virtual Order Order { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SaleMethod> SaleMethods { set; get; }
+
     }
 }

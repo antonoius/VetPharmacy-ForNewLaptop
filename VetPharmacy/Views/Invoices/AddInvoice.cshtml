@@ -103,12 +103,18 @@
 
 
         });
+        //$('#medicine_MedicineName').autocomplete({
+        //    source: '/Invoices/GetMedicineName'
+
+
+        //});
        // $("#invoice_item_Quantity").val(0);
         counter++;
 
     };
-    function GetShipmentData() {
 
+    function GetShipmentData() {
+       
         //$("table[id='table2'] input[id='invoice_item_Item_shipment_id']").each(function () {
         $("tr[id=" + count + "] td input[id='Shipment_Id']").each(function () {
 
@@ -167,6 +173,7 @@
     }
     function Quantity_cal(counter)
     {
+        debugger;
         var errort = true;
         var UnitCap = [];
         var UnitQuat = [];

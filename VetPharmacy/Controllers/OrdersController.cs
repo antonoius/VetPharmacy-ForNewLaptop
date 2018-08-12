@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VetPharmacy;
+using VetPharmacy.Models;
 
 namespace VetPharmacy.Controllers
 {
@@ -15,6 +16,7 @@ namespace VetPharmacy.Controllers
         private VetPharmaDB db = new VetPharmaDB();
 
         // GET: Orders
+      
         public ActionResult Index()
         {
             return View(db.Orders.ToList());
@@ -123,9 +125,76 @@ namespace VetPharmacy.Controllers
             }
             base.Dispose(disposing);
         }
+        [Authorize]
         public ActionResult AddOrder()
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult GetShipmentData(string medicine_name)
+        {
+            var num = db.Medicines.Where(x => x.MedicineName == medicine_name).FirstOrDefault();
+            if(db.Shipments.Where(x=>x.ShipmentMedicine_id==num.MedicineId).Count()==0)
+            {
+                Shipment shipment_temp = new Shipment();
+                shipment_temp.ShipmentMedicine_id = num.MedicineId;
+                shipment_temp.Medicine = num;
+                shipment_temp.Medicine.MedicineCapacity = num.MedicineCapacity;
+                shipment_temp.TradPrice = 0;
+                shipment_temp.OriginalPrice = 0;
+                
+                return Json(shipment_temp, JsonRequestBehavior.AllowGet);
+            }
+            var a = (from n in db.Shipments
+                     where n.Medicine.MedicineName == medicine_name
+                     orderby n.ShipmentId descending
+                     select new { n.ShipmentMedicine_id, n.Medicine.MedicineCapacity, n.TradPrice, n.WholesalePrice, n.OriginalPrice ,n.Medicine.IsWholeSale}).FirstOrDefault();
+            //double w= db.Medicines.Where(x => x.MedicineName.StartsWith(medicine_name)).FirstOrDefault().MedicineCapacity;
+          
+                 
+            return Json(a,JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public string SubmetOrder(Order OrderToSubment,List<Shipment> ShipmentsToSubmet)
+        {
+            
+            try
+            {
+                db.Orders.Add(OrderToSubment);
+                db.SaveChanges();
+                var a = (from b in db.Orders orderby b.OrderId descending select new { b.OrderId }).FirstOrDefault();
+                int order_id = a.OrderId;
+                foreach (Shipment shipment in ShipmentsToSubmet)
+                {
+                    shipment.Order_id = order_id;
+                    shipment.ShipmentRemainderAmount = shipment.ShipmentAmount;
+                    db.Shipments.Add(shipment);
+                }
+                db.SaveChanges();
+                return "true";
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+
+
+        }
+        [HttpGet]
+        public ActionResult GetShipmentNumbers(string name)
+        {
+            return Json(db.Shipments.Where(x => x.Medicine.MedicineName == name).Count(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetMedicineCapacity(string name)
+        {
+            return Json(db.Medicines.Where(x => x.MedicineName == name).FirstOrDefault().MedicineCapacity, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult GetMedicineId(string name)
+        {
+            return Json(db.Medicines.Where(x => x.MedicineName == name).FirstOrDefault().MedicineId, JsonRequestBehavior.AllowGet);
+        }
     }
+
 }

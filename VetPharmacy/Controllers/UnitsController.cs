@@ -15,6 +15,7 @@ namespace VetPharmacy.Controllers
         private VetPharmaDB db = new VetPharmaDB();
 
         // GET: Units
+        [Authorize]
         public ActionResult Index()
         {
             return View(db.Units.ToList());

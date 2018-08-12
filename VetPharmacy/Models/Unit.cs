@@ -1,4 +1,4 @@
-namespace VetPharmacy
+    namespace VetPharmacy
 {
     using System;
     using System.Collections.Generic;
@@ -20,8 +20,9 @@ namespace VetPharmacy
         [Required]
         [StringLength(50)]
         public string UnitName { get; set; }
+        public double UnitCapacity { set; get; }
 
-    
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Medicine> Medicines { get; set; }

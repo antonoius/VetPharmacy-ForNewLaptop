@@ -20,6 +20,7 @@ namespace VetPharmacy
         public DateTime OrderDate { get; set; }
 
         public double OrderTotalMoney { get; set; }
+        public int ShipmentNumber { set; get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Shipment> Shipments { get; set; }

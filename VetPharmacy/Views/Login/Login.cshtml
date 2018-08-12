@@ -1,0 +1,61 @@
+﻿@model VetPharmacy.Models.UserMe
+@{
+    ViewBag.Title = "Login";
+}
+
+<head>
+    <link href="~/Style/MyStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <link href="~/Scripts/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/jquery-1.3.1.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</head>
+<body>
+    <h2>Login</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                        @*<form role="form">*@
+                            @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                            {
+                                @Html.ValidationSummary(true)
+                                @Html.AntiForgeryToken()
+
+                            <fieldset>
+                                <div class="form-group">
+                                    @*<input class="form-control" placeholder="E-mail" name="email" type="email" autocomplete="off" autofocus>*@
+                                    @Html.TextBoxFor(model=>model.UserName,new  { @class="form-control",@placeholder = "E-mail" , @type = "email", @autocomplete = "off" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.PasswordFor(model => model.UserPassword, new { @class = "form-control", @placeholder = "Password", @type = "password", @autocomplete = "off" })
+                                     @*<input class="form-control" placeholder="Password" name="password" type="password" value="">*@
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                    </label>
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+                                @*<a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>*@
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Login" />
+                            </fieldset>
+                            }
+                        @*</form>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

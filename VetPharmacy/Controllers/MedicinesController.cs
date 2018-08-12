@@ -37,9 +37,15 @@ namespace VetPharmacy.Controllers
         }
 
         // GET: Medicines/Create
+        public ActionResult AddMedicine()
+        {
+            ViewBag.Unit_Id = new SelectList(db.Units, "UnitId", "UnitName");
+            return View();
+        }
         public ActionResult Create()
         {
             ViewBag.Unit_Id = new SelectList(db.Units, "UnitId", "UnitName");
+
             return View();
         }
 
@@ -48,7 +54,7 @@ namespace VetPharmacy.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MedicineId,MedicineName,Unit_Id,Comment")] Medicine medicine)
+        public ActionResult Create( Medicine medicine)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +88,7 @@ namespace VetPharmacy.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MedicineId,MedicineName,Unit_Id,Comment,MedicineCapacity")] Medicine medicine)
+        public ActionResult Edit(Medicine medicine)
         {
             if (ModelState.IsValid)
             {
@@ -127,6 +133,18 @@ namespace VetPharmacy.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult GetSaleMethodNames(string Name)
+        {
+            return Json(db.SaleMethods.Where(x => x.SaleMethodId > 0).Select(x => x.unit.UnitName).ToList());
+        }
+        [HttpGet]
+        public ActionResult GetUnitNames(string any)
+        {
+            var a = (from r in db.Units
+                     where r.UnitId > 0
+                     select new { r.UnitId, r.UnitName });
+            return Json(a,JsonRequestBehavior.AllowGet);
         }
     }
 }

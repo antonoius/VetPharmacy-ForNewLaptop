@@ -1,0 +1,119 @@
+﻿@model VetPharmacy.Models.OrderComponent
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Medicine</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.medicine.MedicineName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.medicine.MedicineName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.medicine.MedicineName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.medicine.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.medicine.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.medicine.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<input type="button" class="btn btn-default"id="AddSaleMethod" value="AddSaleMethod" onclick="AddSaleMethod()" />
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<table id="table2" class="table">
+
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.salemethod.unit.UnitName)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.salemethod.Capacity)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.salemethod.Capacity)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.salemethod.Capacity)
+                </td>
+            </tr>
+
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+
+    var counter = 1;
+    var UnitData = [];
+    var any = "a";
+    $(document).ready(function () {
+
+    })
+    function AddSaleMethod() {
+        $("table[id='table2']").append(
+            '<tr id=' + counter + '>' +
+            '<td><select onchange="GetShipmentInfo(this.value)"   class="form-control" id="Unit_name" name="Unit Name"></td>' +
+            '<td>@Html.TextBoxFor(model => model.salemethod.Capacity, new { @class = "form-control",@type="number", onchange = "Quantity_cal(this.value)", @autocomplete = "off" })</td>' +
+            '<td><input type="button" id=' + counter + ' value="Delete" onclick="DeleteRow(' + counter + ')" class="btn btn-default" /></td></tr>'
+            )
+        //$('input[id="salemethod_OriginalPrice"]').autocomplete({
+        //    source: '/Invoices/GetMedicineName'
+        
+
+        //});
+        counter++;
+    }
+    function AddTable() {
+     //   $("table[class='1' ]  ").append('<tr><td><h4>tony</h4></td></tr><tr><td><h4>tony</h4></td></tr>')
+        $.ajax({
+
+            type: 'GET',
+            url: 'http://localhost:64304/Medicines/GetUnitNames',
+            data: { any },
+            success: function (data) {
+                UnitData = data;
+                for (x = 0; x < UnitData.length; x++) {
+                    $("select[id='Unit_name']").append(new Option(UnitData[x].UnitName, UnitData[x].UnitId));
+                }
+            },
+            failure: function (data) {
+                alert("errer");
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert("Name Not Found");
+            }
+
+        })
+    }
+    function DeleteRow(counter) {
+        $("table[id='table2'] tr[id="+counter+"] ").remove();
+    }
+
+</script>
+
+<input type="button" class="btn btn-default" id="AddSaleMethod" value="AddTable" onclick="AddTable()" />

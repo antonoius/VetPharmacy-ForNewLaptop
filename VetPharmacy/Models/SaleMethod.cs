@@ -10,11 +10,11 @@ namespace VetPharmacy.Models
     {
         [Key]
         public int SaleMethodId { set; get; }
-        public int Shipment_id { set; get; }
+        public int Medicine_id { set; get; }
+        public virtual Unit unit { set; get; }
         public int Unit_id { set; get; }
-        public double TradPrice { set; get; }
-        public double OriginalPrice { get; set; }
         public double Capacity { set; get; }
+        public virtual Medicine medicine { set; get; }
 
     }
 }

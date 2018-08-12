@@ -30,6 +30,7 @@ namespace VetPharmacy.Controllers
         }
 
         // GET: Invoices/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -176,6 +177,7 @@ namespace VetPharmacy.Controllers
         }
         public ActionResult AddInvoice()
         {
+            ViewBag.te = db.Units.ToList();
             return View();
         }
         [HttpGet]

@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "AddOrder";
 }
-
+<br />
 <h2>AddOrder</h2>
 <head>
     <link href="~/Style/MyStyle.css" rel="stylesheet" />
@@ -26,6 +26,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.order.OrderTotalMoney)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.order.ShipmentNumber)
+            </th>
 
 
         </tr>
@@ -34,10 +37,292 @@
                 @Html.TextBoxFor(model => model.order.OrderDate, new { @class = "form-control", @readonly = "readonly" })
             </th>
             <th>
-                @Html.TextBoxFor(model => model.order.OrderTotalMoney, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.order.OrderTotalMoney, new { @class = "form-control" , @type = "number" })
             </th>
+            <th>
+                @Html.TextBoxFor(model => model.order.ShipmentNumber, new { @class = "form-control", @type = "number" })
+            </th>
+
 
         </tr>
     </tbody>
 </table>
 <h2>Add Shipment</h2>
+<input type="button" value="Add Shipment" class="btn btn-default" id="AddShipment" onclick="AddShipment()" />
+<br />
+<table class="table" id="table2">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.medicine.MedicineId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model=>model.shipment.Medicine.MedicineName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.shipment.Medicine.MedicineCapacity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.shipment.ShipmentAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.shipment.OriginalPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.shipment.TradPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.shipment.WholesalePrice)
+        </th>
+        <th>
+           <h5>Delete</h5>
+        </th>
+    </tr>
+</table>
+
+
+
+<script type="text/javascript">
+        var counter = 1;
+        $(document).ready(function () {
+            $("table[id='table']  input[id='order_OrderTotalMoney'] ").val(0);
+
+            var date = new Date();
+            var current_date = date.toJSON();
+            $("#order_OrderDate").val(current_date);
+            AddShipment();
+        })
+    function AddShipment() {
+        $('table[id=table2] tbody').append(
+            '<tr id=' + counter + '>' +
+            '<td>@Html.TextBoxFor(model => model.medicine.MedicineId, new { @class = "form-control" , @readonly = "readonly" })</td>' +
+            '<td>@Html.TextBoxFor(model => model.medicine.MedicineName, new { @class = "form-control" ,onchange= "LoadMedicineDate()" })</td>' +
+            //'<td><select onchange="GetShipmentInfo(this.value)" onfocus="this.selectedIndex =-1" onblur="if(this.selectedIndex==-1){this.selectedIndex=0};" class="form-control" id="Shipment_Id" name="Shipment Id"></td>' +
+            '<td>@Html.TextBoxFor(model => model.shipment.Medicine.MedicineCapacity, new { @class = "form-control",@type="number",  @autocomplete = "off", @readonly = "readonly" })</td>' +
+            '<td>@Html.TextBoxFor(model => model.shipment.ShipmentAmount, new { @class = "form-control", @type = "number", onblur = "CalculateData()", onchange = "CalculateData()",style= "background-color:#F5F6CE" }  )</td>' +
+            '<td>@Html.TextBoxFor(model => model.shipment.OriginalPrice, new { @class= "form-control", @type = "number", style= "background-color: #A9F5BC", onblur = "CalculateData()", onchange = "CalculateData()" })</td>' +
+            '<td>@Html.TextBoxFor(model => model.shipment.TradPrice, new { @class= "form-control", @type = "number", onblur = "CalculateData()", onchange = "CalculateData()", style = "background-color: #A9F5BC" })</td>' +
+            '<td>@Html.TextBoxFor(model => model.shipment.WholesalePrice, new { @class= "form-control", @type = "number", onblur = "CalculateData()", onchange = "CalculateData()", style = "background-color: #A9F5BC", @AutoCompleteType = "Disabled"})</td>' +
+            '<td><input type="button" id=' + counter + ' value="Delete" onclick="DeleteShipment(' + counter + ')" class="btn btn-default" /></td></tr>'
+            )
+        $('input[id="medicine_MedicineName"]').autocomplete({
+            source: '/Invoices/GetMedicineName'
+
+
+        });
+      
+        counter++;
+    }
+    function DeleteShipment(counter) {
+        $("table[id='table2'] tr[id=" + counter + "]").remove();
+        CalculateData();
+    }
+    function LoadMedicineDate() {
+        
+        var countt = 1;
+        var temp_ShipmentData ;
+        $("table[id='table2'] tbody tr ").each(function () {
+            if ($(this).find("input[id='medicine_MedicineName']").val() != null && $(this).find("input[id='medicine_MedicineName']").val() != "") {
+      //  alert($(this).find("input[id='medicine_MedicineName']").val().length);
+                    var medicine_name1 = $(this).find("input[id='medicine_MedicineName']").val();
+                    if (GetMedicineId(medicine_name1) != $(this).find("input[id='medicine_MedicineId']").val()) {
+                    var ShipmentNumbers = GetShipmentNumbersFromServer(medicine_name1);
+                    $(this).find("input[id='shipment_Medicine_MedicineCapacity']").val(GetMedicineCapacityFromServer(medicine_name1));
+                    $(this).find("input[id='medicine_MedicineId']").val(GetMedicineId(medicine_name1));
+                    if (ShipmentNumbers != 0) {
+
+                        temp_ShipmentData = LoadMedicineDateFromServer(medicine_name1);
+                        console.log(temp_ShipmentData);
+                        $(this).find("input[id='medicine_MedicineId']").val(temp_ShipmentData.ShipmentMedicine_id);
+                        $(this).find("input[id='shipment_OriginalPrice']").val(temp_ShipmentData.OriginalPrice);
+                        $(this).find("input[id='shipment_TradPrice']").val(temp_ShipmentData.TradPrice);
+                        $(this).find("input[id='shipment_Medicine_MedicineCapacity']").val(temp_ShipmentData.MedicineCapacity);
+
+                        if (temp_ShipmentData.IsWholeSale == true) {
+                            $(this).find("input[id='shipment_WholesalePrice']").prop('disabled', false);
+                            $(this).find("input[id='shipment_WholesalePrice']").val(temp_ShipmentData.WholesalePrice);
+                        }
+                        else {
+                            $(this).find("input[id='shipment_WholesalePrice']").attr("disabled", true);
+                            $(this).find("input[id='shipment_WholesalePrice']").val(temp_ShipmentData.TradPrice);
+
+                        }
+
+                    }
+                }
+                countt++;
+            }
+        })
+
+        CalculateData();
+    }
+    function LoadMedicineDateFromServer(medicine_name) {
+        var temp;
+        var ShipmentData ;
+
+        $.ajax({
+            type: 'get',
+            url: 'http://localhost:64304/Orders/GetShipmentData',
+            data: { medicine_name },
+            async: false,
+            success: function (data) {
+
+                ShipmentData = data;
+
+            }
+        })
+        return ShipmentData;
+    }
+    function GetShipmentNumbersFromServer(name) {
+        var te;
+        $.ajax({
+
+            type: "get",
+            url: 'http://localhost:64304/Orders/GetShipmentNumbers',
+            data: { name },
+            async: false,
+            success: function (data) {
+                te= data;
+            }
+        })
+        return te;
+    }
+    function CalculateData() {
+        var status = true;
+        var CalMoney = 0;
+        var ShipmentIndex = 0;
+        $("table[id='table2'] tbody tr ").each(function () {
+            $(this).find("input").each(function(){
+                if($(this).val()==0||$(this).val()==null||$(this).val()<0||$(this).val()=="")
+                {
+                    //alert("Some Values are not correct .");
+                    $(this).css({ "background-color": "#FA5882" });
+                    status = false;
+                }
+                else {
+                    if ($(this).attr("id") == 'medicine_MedicineId')
+                        $(this).css({ "background-color": "#F2F2F2" });
+                    if ($(this).attr("id") == 'medicine_MedicineName')
+                        $(this).css({ "background-color": "#FFFFFF" });
+                    if ($(this).attr("id") == 'shipment_Medicine_MedicineCapacity')
+                        $(this).css({ "background-color": "#F2F2F2" });
+                    if ($(this).attr("id") == 'shipment_ShipmentAmount')
+                        $(this).css({ "background-color": "#F5F6CE" });
+                    if ($(this).attr("id") == 'shipment_OriginalPrice')
+                        $(this).css({ "background-color": "#A9F5BC" });
+                    if ($(this).attr("id") == 'shipment_TradPrice')
+                        $(this).css({ "background-color": "#A9F5BC" });
+                    if ($(this).attr("id") == 'shipment_WholesalePrice')
+                        $(this).css({ "background-color": "#A9F5BC" });
+                   
+                }
+            })
+            if ($(this).find("input[id='medicine_MedicineName']").val() != null && $(this).find("input[id='medicine_MedicineName']").val() != "") {
+                var Amount =parseFloat( $(this).find("input[id='shipment_ShipmentAmount']").val());
+                var Price = parseFloat($(this).find("input[id='shipment_OriginalPrice']").val());
+                CalMoney += (Amount * Price);
+                ShipmentIndex++;
+
+            }
+        })
+        $("table[id='table']  input[id='order_OrderTotalMoney'] ").val(CalMoney);
+        $("table[id='table']  input[id='order_ShipmentNumber'] ").val(ShipmentIndex);
+        return status;
+    }
+    function SubmetData(){
+        CalculateData();
+        if (CalculateData() == false) {
+            alert("Some Values is incorrect or empty .");
+            return;
+        }
+
+        var  ShipmentsToSubmet2 = {
+            MedicineName: $(this).find("input[id='medicine_MedicineName']").val(),
+            ShipmentAmount: $(this).find("input[id='shipment_ShipmentAmount']").val(),
+            OriginalPrice: $(this).find("input[id='shipment_OriginalPrice']").val(),
+            TradPrice: $(this).find("input[id='shipment_TradPrice']").val(),
+            WholesalePrice: $(this).find("input[id='shipment_WholesalePrice']").val()
+        }
+        var ShipmentsToSubmet=[];
+        var   OrderToSubment = {
+            OrderDate: $("table[id='table']  input[id='order_OrderDate'] ").val(),
+            OrderTotalMoney: $("table[id='table']  input[id='order_OrderTotalMoney'] ").val(),
+            ShipmentNumber: $("table[id='table']  input[id='order_ShipmentNumber'] ").val(),
+
+        }
+
+        $("table[id='table2'] tbody tr ").each(function () {
+            if ($(this).find("input[id='medicine_MedicineName']").val() != null && $(this).find("input[id='medicine_MedicineName']").val() != "") {
+                var Shipment = {
+                    MedicineName: $(this).find("input[id='medicine_MedicineName']").val(),
+                    OriginalPrice: $(this).find("input[id='shipment_OriginalPrice']").val(),
+                    TradPrice: $(this).find("input[id='shipment_TradPrice']").val(),
+                    WholesalePrice: $(this).find("input[id='shipment_WholesalePrice']").val(),
+                    ShipmentAmount: ($(this).find("input[id='shipment_Medicine_MedicineCapacity']").val() * $(this).find("input[id='shipment_ShipmentAmount']").val()),
+                    ShipmentMedicine_id: GetMedicineId($(this).find("input[id='medicine_MedicineName']").val())
+                }
+                    ShipmentsToSubmet.push(Shipment);
+            }
+        })
+
+        console.log(OrderToSubment);
+        console.log(ShipmentsToSubmet);
+
+        $.ajax({
+
+                type: 'post',
+                url: 'http://localhost:64304/Orders/SubmetOrder',
+                data: { OrderToSubment, ShipmentsToSubmet },
+                success: function (data) {
+                    alert(data);
+                }
+            })
+    }
+    function GetMedicineCapacityFromServer(name) {
+        var te;
+        $.ajax({
+
+            type: "get",
+            url: 'http://localhost:64304/Orders/GetMedicineCapacity',
+            data: { name },
+            async: false,
+            success: function (data) {
+                te = data;
+            }
+        })
+        return te;
+    }
+    function GetMedicineId(name) {
+        var te;
+        $.ajax({
+
+            type: "get",
+            url: 'http://localhost:64304/Orders/GetMedicineId',
+            data: { name },
+            async: false,
+            success: function (data) {
+                te = data;
+            }
+        })
+        return te;
+    }
+    function CheckMedicineNameFound(){
+
+    }
+</script>
+<input type="button" value="Submet" onclick="SubmetData()" />
+<h1>@(Request.IsAuthenticated? HttpContext.Current.User.Identity.Name: "Guest")</h1>
+@{ 
+    if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("Logout", "Login", FormMethod.Post, new { id = "LogoutForm" }))
+        {
+            <a href="javascript:document.getElementById('LogoutForm').sub">Logout</a>
+        }
+       @Html.ActionLink("Login", "Logout", "Login", null, null);
+    }
+    else
+    {
+        @Html.ActionLink("Login", "Login", "Login");
+    }
+}
+
