@@ -29,7 +29,7 @@
                         @*<form role="form">*@
                             @using (Html.BeginForm("Login", "Login", FormMethod.Post))
                             {
-
+                                @Html.ValidationSummary(true)
                                 @Html.AntiForgeryToken()
 
                             <fieldset>
