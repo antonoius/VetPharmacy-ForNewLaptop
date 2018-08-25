@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "test";
+    
+}
+<br>
+<br>
+<br>
+<br>
+<input type="button" value="Show" onclick="Show()">
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <title>Area</title>
+</head>
+<body>
+    <div id="chartContainer"></div>
+
+    <script type="text/javascript">
+        function Show() {
+            var data=[];
+            for (q = 0; q < 10; q++)
+            {
+                data.push({x:q,y:q})
+            }
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "theme2",
+                animationEnabled: true,
+                title: {
+                    text: "Monthly Downloads",
+                    fontSize: 25
+                },
+                axisX: {
+                    valueFormatString: "MMM",
+                    interval: 1,
+                    intervalType: "month"
+
+                },
+                axisY: {
+                    title: "Downloads"
+                },
+
+                data: [
+                {
+
+                    
+                    type: "area",
+                    dataPoints:data
+                    //    [
+
+                    //{ x: 1, y: 12 },
+                    //{ x: 2, y: 19 },
+                    //{ x: 7, y: 147 }
+                    
+                    ////{ x: new Date(2012, 03, 1), y: 0 },
+                    ////{ x: new Date(2012, 04, 1), y: 32 }
+                    ////{ x: new Date(2012, 04, 1), y: 32 }
+
+               
+                    //]
+                }
+                ]
+            });
+
+            chart.render();
+        }
+        //window.onload = function () {
+        //    var chart = new CanvasJS.Chart("chartContainer", {
+        //        theme: "theme2",
+        //        animationEnabled: true,
+        //        title: {
+        //            text: "Monthly Downloads",
+        //            fontSize: 25
+        //        },
+        //        axisX: {
+        //            valueFormatString: "MMM",
+        //            interval: 1,
+        //            intervalType: "month"
+
+        //        },
+        //        axisY: {
+        //            title: "Downloads"
+        //        },
+
+        //        data: [
+        //        {
+                    
+        //            type: "area",
+        //            dataPoints: [
+        //            { x: new Date(2012, 00, 1), y: 2600 },
+        //            { x: new Date(2012, 01, 1), y: 3800 },
+        //            { x: new Date(2012, 02, 1), y: 4300 },
+        //            { x: new Date(2012, 03, 1), y: 2900 },
+        //            { x: new Date(2012, 04, 1), y: 4100 },
+        //            { x: new Date(2012, 05, 1), y: 4500 },
+        //            { x: new Date(2012, 06, 1), y: 8600 },
+        //            { x: new Date(2012, 07, 1), y: 6400 },
+        //            { x: new Date(2012, 08, 1), y: 5300 },
+        //            { x: new Date(2012, 09, 1), y: 6000 }
+        //            ]
+        //        }
+        //        ]
+        //    });
+
+        //    chart.render();
+        //};
+    </script>
+
+</body>
+</html>		

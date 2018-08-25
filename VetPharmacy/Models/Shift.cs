@@ -13,7 +13,8 @@ namespace VetPharmacy.Models
         public int User_id { set; get; }
         public virtual UserMe user { set; get; }
         public DateTime StartDate { set; get; }
-        public DateTime EndDate { set; get; }
+        public DateTime? EndDate { set; get; }
+        public int InvoiceNumber { set; get; }
         public ICollection<Invoice> invoices { set; get; }
         public double TotalMoney { set; get; }
     }

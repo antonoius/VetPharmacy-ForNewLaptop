@@ -12,6 +12,8 @@ namespace VetPharmacy.Models
         public int UserId { set; get; }
         public string UserName { set; get; }
         public string UserPassword { set; get; }
-        public ICollection<Shift> shift { set; get; }
+        
+        public string UserEmail { set; get; }
+        public virtual ICollection<Shift> shift { set; get; }
     }
 }

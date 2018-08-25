@@ -125,7 +125,7 @@ namespace VetPharmacy.Controllers
             }
             base.Dispose(disposing);
         }
-        [Authorize]
+       
         public ActionResult AddOrder()
         {
             return View();

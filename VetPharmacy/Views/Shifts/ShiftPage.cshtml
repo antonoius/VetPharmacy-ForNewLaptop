@@ -1,0 +1,407 @@
+﻿@model VetPharmacy.Models.OrderComponent
+@{
+    ViewBag.Title = "ShiftPage";
+
+}
+@*<script src="~/Style/ForTable/jquery-3.3.1.js"></script>
+<link href="~/Style/ForTable/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Style/ForTable/dataTables.bootstrap.min.css" rel="stylesheet" />
+<script src="~/Style/ForTableWithExpander/datatables.min.js"></script>
+<link href="~/Style/ForTableWithExpander/datatables.min.css" rel="stylesheet" />*@
+<br>
+<link href="~/Style/MyStyle.css" rel="stylesheet" />
+<h2>ShiftPage</h2>
+@*<input type="button" class="btn btn-outline-success"  value="Open Shift" onclick="OpenShift()" />
+<input type="button"  class="" value="Close Shift" onclick="CloseShift()" />*@
+<button type="button" id="OpenShiftBtn"  class="btn btn-primary btn-lg btn-block" onclick="OpenShift()">Open Shift</button>
+<button type="button" id="CloseShiftBtn" class="btn btn-secondary btn-lg btn-block" onclick="CloseShift()" style="background-color:#ff4d4d" >Close Shift</button>
+<br><br><br>
+
+<div id="info">
+    <div class="form-group row">
+
+        <div class="col-xs-4">
+               @Html.LabelFor(model => model.userme.UserName, new { @class = "col-2 col-form-label", @readonly = "readonly" })
+            <div class="col-10">
+              @Html.TextBoxFor(model => model.userme.UserName, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-xs-4">
+            @Html.LabelFor(model => model.userme.UserEmail, new { @class = "col-2 col-form-label" })
+            <div class="col-10">
+                @Html.TextBoxFor(model => model.userme.UserEmail, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-xs-4">
+            @Html.LabelFor(model => model.userme.UserEmail, new { @class = "col-2 col-form-label" })
+            <div class="col-10">
+                @Html.TextBoxFor(model => model.userme.UserEmail, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group row">
+
+        <div class="col-xs-4">
+            @Html.LabelFor(model => model.shift.ShiftId, new { @class = "col-2 col-form-label", @readonly = "readonly" })
+            <div class="col-10">
+                @Html.TextBoxFor(model => model.shift.ShiftId, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-xs-4">
+            @Html.LabelFor(model => model.shift.StartDate, new { @class = "col-2 col-form-label" })
+            <div class="col-10">
+                @*<input class="form-control" type="datetime-local"  id="shift_EndDate11" readonly="readonly">*@
+                 @Html.TextBoxFor(model => model.shift.StartDate, new { @class = "form-control", @readonly = "readonly", @type = "text" })
+            </div>
+        </div>
+        <div class="col-xs-4">
+            @Html.LabelFor(model => model.shift.EndDate, new { @class = "col-2 col-form-label" })
+            <div class="col-10">
+                @Html.TextBoxFor(model => model.shift.EndDate, new { @class = "form-control", @readonly = "readonly", @type = "datetime-local" })
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group row">
+
+        <div class="col-xs-4">
+            @Html.LabelFor(model => model.shift.TotalMoney, new { @class = "col-2 col-form-label", @readonly = "readonly" })
+            <div class="col-10">
+                @Html.TextBoxFor(model => model.shift.TotalMoney, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-xs-4">
+            @Html.LabelFor(model => model.shift.InvoiceNumber, new { @class = "col-2 col-form-label" })
+            <div class="col-10">
+                @Html.TextBoxFor(model => model.shift.InvoiceNumber, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-xs-4">
+            @Html.LabelFor(model => model.shift.EndDate, new { @class = "col-2 col-form-label" })
+            <div class="col-10">
+                @Html.TextBoxFor(model => model.shift.EndDate, new { @class = "form-control", @type = "datetime" })
+            </div>
+        </div>
+
+    </div>
+   
+    <div class="container">
+        <div class="form-group row">
+            <label for="example-number-input" class="col-2 col-form-label">Number</label>
+            <div class="col-10">
+                <input class="form-control" type="number" value="42" id="example-number-input">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-datetime-local-input" class="col-2 col-form-label">Date and time</label>
+            <div class="col-10">
+                <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-date-input" class="col-2 col-form-label">Date</label>
+            <div class="col-10">
+                <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="form-group row">
+            <label for="example-month-input" class="col-2 col-form-label">Month</label>
+            <div class="col-10">
+                <input class="form-control" type="month" value="2011-08" id="example-month-input">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-week-input" class="col-2 col-form-label">Week</label>
+            <div class="col-10">
+                <input class="form-control" type="week" value="2011-W33" id="example-week-input">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-time-input" class="col-2 col-form-label">Time</label>
+            <div class="col-10">
+                <input class="form-control" type="time" value="13:45:00" id="example-time-input">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<br><br>
+<div id="DivCom">
+<button id="btn-show-all-children" type="button">Expand All</button>
+<button id="btn-hide-all-children" type="button">Collapse All</button>
+ </div>
+<hr>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceId)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceTotalMoney)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceDiscount)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceDiscount)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceDiscount)</th>
+            <th class="none"></th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+      
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    var NumberOfRows = 0;
+    $(document).ready(function () {
+        if("@Session["ShiftId"]"==null||"@Session["ShiftId"]"==""){
+            $("#example").hide();
+            $("#info").hide();
+            $("#DivCom").hide();
+            $("#dd").hide();
+            $("#CloseShiftBtn").attr("disabled", "disabled")
+        }
+        else
+        {
+            $("#shift_StartDate").val("@Session["ShiftStartDate"]")
+            $("#shift_ShiftId").val("@Session["ShiftId"]");
+            $("#userme_UserName").val("@Session["UserName"]");
+            $("#userme_UserEmail").val("@Session["UserEmail"]");
+            $("#shift_ShiftId").val("@Session["ShiftId"]");
+            var date = new Date();
+            var current_date = date.toJSON();
+            var r1 = current_date.substring(0, current_date.indexOf(':', current_date.indexOf(':') + 1));
+            $("#shift_StartDate").val("@Session["ShiftStartDate"]");
+            $("#shift_EndDate11").val(r1);
+            GetShiftInvoices();
+            GetShiftDate();
+        }
+
+        
+
+
+    });
+    function GetInvoicesData() {
+        var shift_id="@Session["ShiftId"]"
+        $.ajax({
+            type: "get",
+            url: "/Shifts/GetInvoicesDataByShiftId",
+            async: false,
+            data: {shift_id},
+            success: function (data) {
+                console.log(data);
+                //    alert(data.length);
+                for (x = 0; x < data.length; x++) {
+                    var item = "";
+                    for (q = 0; q < data[x].items_demo.length; q++) {
+                        item += data[x].items_demo[q].MedicineName;
+                        item += '  /  ';
+                        item += data[x].items_demo[q].Quantity;
+                        item += '  /  ';
+                        item += data[x].items_demo[q].ITemCost;
+                        item += '<br>';
+                    }
+                    $("table[id='example'] tbody ").append(
+                 //      "<tr><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td colspan="3" align="center"><table class="table" id="table2"><thead><th>col1</th><th>col2</th><th>col3</th><th>col4</th><th>col5</th><th>col1</th><th>col2</th><th>col3</th><th>col4</th><th>col5</th></tr></thead><tbody><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>zzzzzzzzzzz</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>wwwwwwwww</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr></tbody></table></td></tr>"
+                        //'<tr><td> data[x].invoice_demo.InvoiceId </td><td>'+data[x].invoice_demo.InvoiceDiscount+'</td><td>'+data[x].invoice_demo.InvoiceId+'</td><td>'+data[x].invoice_demo.InvoiceItemNumber+'</td><td>'+data[x].invoice_demo.InvoiceTotalMoney+'</td><td colspan="3" align="center"><table class="table" id="table2"><thead><tr><th>col1</th><th>col2</th><th>col3</th></tr></thead><tbody><tr><td>'+data[x].items_demo[0].MedicineName+'</td><td>'+data[x].items_demo[0].ITemCost+'</td><td>'+data[x].items_demo[0].Quantity+'</td></tr></tbody></table></td></tr>'
+                         '<tr>' +
+        '<td>' + data[x].invoice_demo.InvoiceId + '</td>' +
+        '<td>' + data[x].invoice_demo.InvoiceTotalMoney + '</td>' +
+        '<td>' + data[x].invoice_demo.InvoiceId + '</td>' +
+        '<td>' + data[x].invoice_demo.InvoiceItemNumber + '</td>' +
+        '<td>' + data[x].invoice_demo.InvoiceDiscount + '</td>' +
+        '<td><div style="font-size:x-large;border: 1px solid #0047b3;border-radius: 4px;padding:5px;width: 500px">' + item + '</div></td>'
+        //'<td>' + data[x].items_demo[0].MedicineName + '    /     ' + data[x].items_demo[0].ITemCost + '    /     ' + data[x].items_demo[0].Quantity + '</td>'
+         //'<td>'+
+     //                   '<table class="table" id="table2">'+
+     //         '<thead>' +
+     //   '<tr>'+
+     //   ' <th>col1</th>'+
+     //   '<th>col2</th>'+
+     //   '<th>col3</th>'+
+     //   '</tr>'+
+     //   '</thead>'+
+     //   '<tbody>' +
+     //                  '<tr>'+
+     //                     '<td>'+data[x].items_demo[0].MedicineName+'</td>'+
+     //                     '<td>'+data[x].items_demo[0].ITemCost+'</td>'+
+     //                     '<td>'+data[x].items_demo[0].Quantity+'</td>'+
+     //                  '</tr>' +
+     //   '</tbody>'+
+     //          '</table>' +
+     //      '</td>'+
+     //'</tr>'
+
+                        )
+                }
+                return data;
+
+            }
+
+        })
+    }
+    function LoadTable() {
+        //  var table = $('#example').DataTable();
+
+        //$('table[id="example"] tbody').empty();
+        //$('table[id="example"]').destroy();
+
+
+        // table.rows().remove();
+        //   table.destroy();
+        GetInvoicesData();
+        var table = $('table[id="example"]').DataTable({
+
+            'responsive': true
+
+        });
+
+        // Handle click on "Expand All" button
+        $('#btn-show-all-children').on('click', function () {
+            // Expand row details
+            table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+        });
+
+        // Handle click on "Collapse All" button
+        $('#btn-hide-all-children').on('click', function () {
+            // Collapse row details
+            table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+        });
+        //  alert(table.rows().count())
+        // location.reload();
+        //     alert(table.data.length);
+    }
+    function LoadTable2() {
+
+        //// var table = $('#example').DataTable();
+        $("table[id='example']").each(function () {
+            $(this).dataTable().fnDestroy();
+            $(this).find("tbody tr ").each(function () { $(this).remove() });
+        })
+
+        GetInvoicesData();
+        var table = $('table[id="example"]').DataTable({
+
+            'responsive': true
+
+        });
+
+        // Handle click on "Expand All" button
+        $('#btn-show-all-children').on('click', function () {
+            // Expand row details
+            table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+        });
+
+        // Handle click on "Collapse All" button
+        $('#btn-hide-all-children').on('click', function () {
+            // Collapse row details
+            table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+        });
+
+
+
+    }
+    function GetShiftInvoices() {
+        if (NumberOfRows == 0) {
+            GetInvoicesData();
+            var table = $('table[id="example"]').DataTable({
+
+                'responsive': true
+            });
+            // Handle click on "Expand All" button
+            $('#btn-show-all-children').on('click', function () {
+                // Expand row details
+                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+            });
+            // Handle click on "Collapse All" button
+            $('#btn-hide-all-children').on('click', function () {
+                // Collapse row details
+                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+            });
+            NumberOfRows = table.rows().count();
+
+        }
+        else {
+            $("table[id='example']").each(function () {
+                $(this).dataTable().fnDestroy();
+                $(this).find("tbody tr ").each(function () { $(this).remove() });
+            })
+            GetInvoicesData();
+            var table = $('table[id="example"]').DataTable({
+
+                'responsive': true
+
+            });
+
+            // Handle click on "Expand All" button
+            $('#btn-show-all-children').on('click', function () {
+                // Expand row details
+                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+            });
+
+            // Handle click on "Collapse All" button
+            $('#btn-hide-all-children').on('click', function () {
+                // Collapse row details
+                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+            });
+        }
+
+    }
+    function GetShiftDate() {
+        $.ajax({
+            type: "get",
+            url: "/Shifts/GetShiftDate",
+            success: function (data) {
+                $("input[id='shift_TotalMoney']").val(data);
+            }
+        })
+    }
+    function OpenShift() {
+        $.ajax({
+            type:"post",
+            url: "/Shifts/OpenShift",
+            success: function (data) {
+
+            }
+        })
+        $("#example").show();
+        $("#info").show();
+        $("#DivCom").show();
+        $("#dd").show();
+        $("#CloseShiftBtn").attr("disabled", false);
+        $("#OpenShiftBtn").attr("disabled", "disabled");
+        location.reload();
+
+
+
+
+    }
+    function CloseShift() {
+        $.ajax({
+            type: "post",
+            url: "/Shifts/CloseShift",
+            success: function (data) {
+                alert(data);
+            }
+        })
+        $("#example").hide();
+        $("#info").hide();
+        $("#DivCom").hide();
+       
+        $("#CloseShiftBtn").attr("disabled", "disabled");
+        
+        $("#dd").hide();
+        $("#example_wrapper").hide();
+    }
+
+
+
+</script> 
+<br><br><br>
+<input type="button" value="get" id="dd" class="btn btn-default" onclick="LoadTable()">
+<input type="button" value="get" id="dd" class="btn btn-default" onclick="LoadTable2()">

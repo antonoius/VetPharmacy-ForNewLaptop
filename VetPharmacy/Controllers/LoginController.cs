@@ -13,28 +13,29 @@ namespace VetPharmacy.Controllers
         VetPharmaDB db = new VetPharmaDB();
         // GET: Login
    
-        public ActionResult Login(string ReturnUrl)
+        public ActionResult Login()
         {
-            ViewBag.ReturnUrl = ReturnUrl;
+            
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(UserMe user, string ReturnUrl="")
+        public ActionResult Login(UserMe user)
         {
-            UserMe e = db.UserMes.Where(a => a.UserName.Equals(user.UserName) && a.UserPassword.Equals(user.UserPassword)).FirstOrDefault();
+            UserMe e = db.UserMes.Where(a => a.UserEmail.Equals(user.UserEmail) && a.UserPassword.Equals(user.UserPassword)).FirstOrDefault();
             if(e!=null)
             {
-                FormsAuthentication.SetAuthCookie(e.UserName, true);
-                if(Url.IsLocalUrl(ReturnUrl))
-                {
-                   return Redirect(ReturnUrl);
-                }
-                else
-                {
+                
+                Session["UserName"] = e.UserName;
+                Session["UserEmail"] = e.UserEmail;
+                Session["UserId"] = e.UserId;
+                
 
-                return RedirectToAction("AddOrder", "Orders");
-                }
+                
+
+
+                
+                return RedirectToAction("ShiftPage", "Shifts", null);
+         //       return View("ShiftPage", "Shifts", null);
             }
             else
             {
@@ -49,6 +50,7 @@ namespace VetPharmacy.Controllers
         [HttpPost]
         public ActionResult Create(UserMe user)
         {
+
             db.UserMes.Add(user);
             db.SaveChanges();
             return RedirectToAction("Login", "Login",null);

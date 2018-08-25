@@ -1,21 +1,29 @@
 ﻿@model VetPharmacy.Models.OrderComponent
 @{
     ViewBag.Title = "AddOrder";
+  
 }
+
 <br />
 <h2>AddOrder</h2>
 <head>
+
     <link href="~/Style/MyStyle.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <link href="~/Scripts/jquery-ui.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Style/css/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/Style/css/dataTables/dataTables.responsive.css" rel="stylesheet" />
 
+
+    <link href="~/Style/css/metisMenu.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-1.3.1.js"></script>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    
 </head>
 <table class="table" id="table">
     <tbody>
@@ -50,7 +58,7 @@
 <h2>Add Shipment</h2>
 <input type="button" value="Add Shipment" class="btn btn-default" id="AddShipment" onclick="AddShipment()" />
 <br />
-<table class="table" id="table2">
+<table class="table table-striped table-bordered table-hover" id="table2">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.medicine.MedicineId)
@@ -92,7 +100,7 @@
             AddShipment();
         })
     function AddShipment() {
-        $('table[id=table2] tbody').append(
+       $('table[id=table2] tbody').append(
             '<tr id=' + counter + '>' +
             '<td>@Html.TextBoxFor(model => model.medicine.MedicineId, new { @class = "form-control" , @readonly = "readonly" })</td>' +
             '<td>@Html.TextBoxFor(model => model.medicine.MedicineName, new { @class = "form-control" ,onchange= "LoadMedicineDate()" })</td>' +
@@ -326,3 +334,15 @@
     }
 }
 
+
+
+
+<script src="~/Style/js/dataTables/dataTables.bootstrap.min.js"></script>
+<script src="~/Style/js/dataTables/jquery.dataTables.min.js"></script>
+<script>
+            $(document).ready(function() {
+                $('#table45').DataTable({
+                        responsive: true
+                });
+            });
+</script>

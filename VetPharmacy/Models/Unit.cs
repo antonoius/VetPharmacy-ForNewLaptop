@@ -21,6 +21,7 @@
         [StringLength(50)]
         public string UnitName { get; set; }
         public double UnitCapacity { set; get; }
+        public string comment { set; get; }
 
 
 

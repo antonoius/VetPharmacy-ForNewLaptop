@@ -247,8 +247,17 @@ namespace VetPharmacy.Controllers
         [HttpPost]
         public int SubmetInvoice(Invoice InvoiceToSubmet)
         {
+            int shift_id = Int16.Parse(Session["ShiftId"].ToString());
             DateTime temp_date = InvoiceToSubmet.InvoiceDate;
+            InvoiceToSubmet.Shift_id = Int16.Parse(Session["ShiftId"].ToString());
             db.Invoices.Add(InvoiceToSubmet);
+            db.Shifts.Where(x => x.ShiftId == shift_id).FirstOrDefault().TotalMoney += InvoiceToSubmet.InvoiceTotalMoney;
+            db.Shifts.Where(x => x.ShiftId == shift_id).FirstOrDefault().InvoiceNumber += 1;
+            DateTime date = DateTime.Now;
+            date = date.AddTicks(-(date.Ticks % TimeSpan.TicksPerSecond));
+            db.Shifts.Where(x => x.ShiftId == shift_id).FirstOrDefault().EndDate = date;
+
+
             db.SaveChanges();
             int q = 0;
             q = db.Invoices.OrderByDescending(u => u.InvoiceId).FirstOrDefault().InvoiceId;

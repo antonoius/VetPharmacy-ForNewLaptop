@@ -1,0 +1,480 @@
+﻿@model VetPharmacy.Models.OrderComponent
+@{
+    ViewBag.Title = "Home";
+}
+
+<h2>Wellcome to your Home .</h2>
+<br /><br /><br /><br />
+<link href="~/Style/MyStyle.css" rel="stylesheet" />
+
+<div  style="width:400px " >
+    <div class="form-group row">
+        @Html.LabelFor(model => model.userme.UserName, new { @class = "col-2 col-form-label", @readonly = "readonly" })
+        <div class="col-10">
+            @Html.TextBoxFor(model => model.userme.UserName, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.userme.UserEmail, new { @class = "col-2 col-form-label", @readonly = "readonly" })
+        <div class="col-10">
+            @Html.TextBoxFor(model => model.userme.UserEmail, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(model => model.userme.UserName, new { @class = "col-2 col-form-label", @readonly = "readonly" })
+        <div class="col-10">
+            @Html.TextBoxFor(model => model.userme.UserName, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+
+</div>
+<br />
+<h2>Search by :</h2>
+<div class="form-group row">
+
+    <div class="col-xs-6">
+        <label  class="col-2 col-form-label">By Day</label>
+        <div class="col-10">
+            <input type="date" id="ShiftOfDay" class="form-control" onchange="GetShiftsOfDay()">
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <label class="col-2 col-form-label">By Month</label>
+        <div class="col-10">
+            <input type="month" id="ShiftsOfMonth" class="form-control" onchange="GetShiftsOfMonth()">
+        </div>
+    </div>
+
+</div>
+<div class="form-group row">
+
+    <div class="col-xs-6">
+        <label class="col-2 col-form-label">The Shifts</label>
+        <div class="col-10">
+            
+            <select id="ShiftsOfDay" onchange="GetShiftInvoicesForDays()" class="form-control"></select>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <label class="col-2 col-form-label">The Shifts</label>
+        <div class="col-10">
+            <select id="ShiftsOfMonth" onchange="GetShiftInvoicesForMonths()" class="form-control"></select>
+        </div>
+    </div>
+
+</div>
+<br />
+<h2>Date :</h2>
+<div class="form-group row">
+
+    <div class="col-xs-3">
+        @Html.LabelFor(model => model.shift.TotalMoney, new { @class = "col-2 col-form-label", @readonly = "readonly" })
+        <div class="col-10">
+            @Html.TextBoxFor(model => model.shift.TotalMoney, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+    <div class="col-xs-3">
+        @Html.LabelFor(model => model.shift.StartDate, new { @class = "col-2 col-form-label" })
+        <div class="col-10">
+            @Html.TextBoxFor(model => model.shift.StartDate, new { @class = "form-control", @readonly = "readonly", type = "text" })
+        </div>
+    </div>
+    <div class="col-xs-3">
+        @Html.LabelFor(model => model.shift.EndDate, new { @class = "col-2 col-form-label" })
+        <div class="col-10">
+            @Html.TextBoxFor(model => model.shift.EndDate, new { @class = "form-control", @readonly = "readonly", @type = "text" })
+        </div>
+    </div>
+    <div class="col-xs-3">
+        @Html.LabelFor(model => model.userme.UserName, new { @class = "col-2 col-form-label" })
+        <div class="col-10">
+            @Html.TextBoxFor(model => model.userme.UserName, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+
+</div>
+
+
+<button id="btn-show-all-children" type="button">Expand All</button>
+<button id="btn-hide-all-children" type="button">Collapse All</button>
+<hr>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceId)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceTotalMoney)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceDiscount)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceDiscount)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceDiscount)</th>
+            <th class="none"></th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+        
+    </tbody>
+</table>
+<script type="text/javascript">
+    $("#shift_TotalMoney").val("");
+    $("#shift_StartDate").val("");
+    $("#shift_EndDate").val("");
+    $("#shift_UserEmail").val("");
+    var date_to_search = $("#ShiftDate").val();
+    var NumberOfRows = false;
+    function GetShiftData() {
+        if (NumberOfRows == 0) {
+            GetInvoicesData();
+            var table = $('table[id="example"]').DataTable({
+
+                'responsive': true
+            });
+            // Handle click on "Expand All" button
+            $('#btn-show-all-children').on('click', function () {
+                // Expand row details
+                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+            });
+            // Handle click on "Collapse All" button
+            $('#btn-hide-all-children').on('click', function () {
+                // Collapse row details
+                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+            });
+            NumberOfRows = table.rows.count();
+
+        }
+        else {
+            $("table[id='example']").each(function () {
+                $(this).dataTable().fnDestroy();
+                $(this).find("tbody tr ").each(function () { $(this).remove() });
+            })
+            GetInvoicesData();
+            var table = $('table[id="example"]').DataTable({
+
+                'responsive': true
+
+            });
+
+            // Handle click on "Expand All" button
+            $('#btn-show-all-children').on('click', function () {
+                // Expand row details
+                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+            });
+
+            // Handle click on "Collapse All" button
+            $('#btn-hide-all-children').on('click', function () {
+                // Collapse row details
+                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+            });
+        }     
+
+    }
+    function GetInvoicesData(shift_id) {
+        var rows = 0;
+        $.ajax({
+            type: "get",
+            url: "/Shifts/GetInvoicesDataByShiftId",
+            data:{shift_id},
+            async: false,
+            success: function (data) {
+                console.log(data);
+                //    alert(data.length);
+                for (x = 0; x < data.length; x++) {
+                    var item = "";
+                    for (q = 0; q < data[x].items_demo.length; q++) {
+                        item += data[x].items_demo[q].MedicineName;
+                        item += '  /  ';
+                        item += data[x].items_demo[q].Quantity;
+                        item += '  /  ';
+                        item += data[x].items_demo[q].ITemCost;
+                        item += '<br>';
+                    }
+                    $("table[id='example'] tbody ").append(
+                 //      "<tr><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td colspan="3" align="center"><table class="table" id="table2"><thead><th>col1</th><th>col2</th><th>col3</th><th>col4</th><th>col5</th><th>col1</th><th>col2</th><th>col3</th><th>col4</th><th>col5</th></tr></thead><tbody><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>zzzzzzzzzzz</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>wwwwwwwww</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr></tbody></table></td></tr>"
+                        //'<tr><td> data[x].invoice_demo.InvoiceId </td><td>'+data[x].invoice_demo.InvoiceDiscount+'</td><td>'+data[x].invoice_demo.InvoiceId+'</td><td>'+data[x].invoice_demo.InvoiceItemNumber+'</td><td>'+data[x].invoice_demo.InvoiceTotalMoney+'</td><td colspan="3" align="center"><table class="table" id="table2"><thead><tr><th>col1</th><th>col2</th><th>col3</th></tr></thead><tbody><tr><td>'+data[x].items_demo[0].MedicineName+'</td><td>'+data[x].items_demo[0].ITemCost+'</td><td>'+data[x].items_demo[0].Quantity+'</td></tr></tbody></table></td></tr>'
+                         '<tr>' +
+        '<td>' + data[x].invoice_demo.InvoiceId + '</td>' +
+        '<td>' + data[x].invoice_demo.InvoiceTotalMoney + '</td>' +
+        '<td>' + data[x].invoice_demo.InvoiceId + '</td>' +
+        '<td>' + data[x].invoice_demo.InvoiceItemNumber + '</td>' +
+        '<td>' + data[x].invoice_demo.InvoiceDiscount + '</td>' +
+        '<td><div style="font-size:x-large;border: 1px solid #0047b3;border-radius: 4px;padding:5px;width: 500px">' + item + '</div></td>'
+   
+
+                        )
+                }
+                rows = data.length;
+
+            }
+            
+
+        })
+        $.ajax({
+            type: "get",
+            url: "/Shifts/GetShiftAllData",
+            data: {shift_id},
+            async: false,
+            success: function (data) {
+                console.log(data);
+                $("#shift_TotalMoney").val(data.TotalMoney);
+                $("#shift_StartDate").val(moment(data.StartDate).format('MMMM Do YYYY, h:mm:ss a'));
+                $("#shift_EndDate").val(moment(data.EndDate).format('MMMM Do YYYY, h:mm:ss a') );
+                $("#userme_UserName").val(data.UserName);
+            }
+        })
+        return rows;
+        }
+    
+    function GetShiftsOfDay() {
+        $("select[id='ShiftsOfDay']").empty();
+      //  console.log($("input[id='ShiftOfDay']").val());
+        var date1 = new Date($("input[id='ShiftOfDay']").val());
+         day = $("input[id='ShiftOfDay']").val();
+        var date2 = date1.toString("MM/DD/YYYY");
+     //   console.log(date2);
+        var day2 = new Date(date2);
+        var day = day2.getDate();
+        var month = day2.getMonth()+1;
+        var year= day2.getFullYear();
+    //    console.log(day2);
+    //    alert(day+"/"+month+"//"+year);
+        $.ajax({
+            url: "/Shifts/GetShiftsOfDay",
+            data: {day,year,month},
+            success: function (data) {
+                console.log(data);
+                if(data.length==0)
+                {
+                    alert("There is no shifts .")
+                }
+                else {
+                        
+                    for(a=0;a<data.length;a++)
+                    {
+                        $("select[id='ShiftsOfDay']").append(new Option(data[a],data[a]));
+                    }
+                }
+            }
+            
+        })
+    }
+    function GetShiftsOfWeak() {
+        console.log($("input[id='ShiftsOfWeak']").val());
+        var date1 = new Date($("input[id='ShiftsOfWeak']").val());
+        day = $("input[id='ShiftsOfWeak']").val();
+        var date2 = date1.toString("MM/YYYY");
+        //   console.log(date2);
+        var day2 = new Date(date2);
+        var day = day2.getDate();
+        var month = day2.getMonth() + 1;
+        var year = day2.getFullYear();
+        alert(day + "/" + month + "//" + year);
+    }
+    function GetShiftsOfMonth() {
+        $("select[id='ShiftsOfMonth']").empty();
+        console.log($("input[id='ShiftsOfMonth']").val());
+        var date1 = new Date($("input[id='ShiftsOfMonth']").val());
+        day = $("input[id='ShiftsOfMonth']").val();
+        var date2 = date1.toString("MM/DD/YYYY");
+        var day2 = new Date(date2);
+        var month = day2.getMonth() + 1;
+        var year = day2.getFullYear();
+        $.ajax({
+            url: "/Shifts/GetShiftsOfMonth",
+            data: {  year, month },
+            success: function (data) {
+                console.log(data);
+                if (data.length == 0) {
+                    alert("There is no shifts .")
+                }
+                else {
+                    
+                    for (a = 0; a < data.length; a++) {
+                        $("select[id='ShiftsOfMonth']").append(new Option(data[a], data[a]));
+                    }
+                }
+            }
+
+        })
+
+    }
+    function GetShiftInvoicesForDays()
+    {
+
+        var shift_id = $("select[id='ShiftsOfDay']").val();
+
+        if (NumberOfRows == false && GetInvoicesData(shift_id)!=0) {
+           // NumberOfRows = true;
+            GetInvoicesData(shift_id);
+            var table = $('table[id="example"]').DataTable({
+
+                'responsive': true
+            });
+            // Handle click on "Expand All" button
+            $('#btn-show-all-children').on('click', function () {
+                // Expand row details
+                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+            });
+            // Handle click on "Collapse All" button
+            $('#btn-hide-all-children').on('click', function () {
+                // Collapse row details
+                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+            });
+            NumberOfRows = table.rows().count();
+
+        }
+        else   {
+            NumberOfRows = true;
+            $("table[id='example']").each(function () {
+                $(this).dataTable().fnDestroy();
+                $(this).find("tbody tr ").each(function () { $(this).remove() });
+            })
+            GetInvoicesData(shift_id);
+            var table = $('table[id="example"]').DataTable({
+
+                'responsive': true
+
+            });
+
+            // Handle click on "Expand All" button
+            $('#btn-show-all-children').on('click', function () {
+                // Expand row details
+                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+            });
+
+            // Handle click on "Collapse All" button
+            $('#btn-hide-all-children').on('click', function () {
+                // Collapse row details
+                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+            });
+        }
+        //$.ajax({
+        //    url: "/Shifts/GetInvoicesDataByShiftId",
+        //    data: { shift_id },
+        //    success: function (data) {
+        //        if (NumberOfRows == 0) {
+        //            GetInvoicesData();
+        //            var table = $('table[id="example"]').DataTable({
+
+        //                'responsive': true
+        //            });
+        //            // Handle click on "Expand All" button
+        //            $('#btn-show-all-children').on('click', function () {
+        //                // Expand row details
+        //                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+        //            });
+        //            // Handle click on "Collapse All" button
+        //            $('#btn-hide-all-children').on('click', function () {
+        //                // Collapse row details
+        //                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+        //            });
+        //            NumberOfRows = table.rows().count();
+
+        //        }
+        //        else {
+        //            $("table[id='example']").each(function () {
+        //                $(this).dataTable().fnDestroy();
+        //                $(this).find("tbody tr ").each(function () { $(this).remove() });
+        //            })
+        //            GetInvoicesData();
+        //            var table = $('table[id="example"]').DataTable({
+
+        //                'responsive': true
+
+        //            });
+
+        //            // Handle click on "Expand All" button
+        //            $('#btn-show-all-children').on('click', function () {
+        //                // Expand row details
+        //                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+        //            });
+
+        //            // Handle click on "Collapse All" button
+        //            $('#btn-hide-all-children').on('click', function () {
+        //                // Collapse row details
+        //                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+        //            });
+        //        }
+
+        //        for (x = 0; x < data.length; x++) {
+        //            var item = "";
+        //            for (q = 0; q < data[x].items_demo.length; q++) {
+        //                item += data[x].items_demo[q].MedicineName;
+        //                item += '  /  ';
+        //                item += data[x].items_demo[q].Quantity;
+        //                item += '  /  ';
+        //                item += data[x].items_demo[q].ITemCost;
+        //                item += '<br>';
+        //            }
+        //            $("table[id='example'] tbody ").append(
+        //                 '<tr>' +
+        //'<td>' + data[x].invoice_demo.InvoiceId + '</td>' +
+        //'<td>' + data[x].invoice_demo.InvoiceTotalMoney + '</td>' +
+        //'<td>' + data[x].invoice_demo.InvoiceId + '</td>' +
+        //'<td>' + data[x].invoice_demo.InvoiceItemNumber + '</td>' +
+        //'<td>' + data[x].invoice_demo.InvoiceDiscount + '</td>' +
+        //'<td><div style="font-size:x-large;border: 1px solid #0047b3;border-radius: 4px;padding:5px;width: 500px">' + item + '</div></td>'
+        
+        //                )
+        //        }
+        //    }
+        //})
+    }
+    function GetShiftInvoicesForMonths() {
+
+        var shift_id = $("select[id='ShiftsOfMonth']").val();
+
+        if (NumberOfRows == false && GetInvoicesData(shift_id) != 0) {
+            // NumberOfRows = true;
+            GetInvoicesData(shift_id);
+            var table = $('table[id="example"]').DataTable({
+
+                'responsive': true
+            });
+            // Handle click on "Expand All" button
+            $('#btn-show-all-children').on('click', function () {
+                // Expand row details
+                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+            });
+            // Handle click on "Collapse All" button
+            $('#btn-hide-all-children').on('click', function () {
+                // Collapse row details
+                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+            });
+            NumberOfRows = table.rows().count();
+
+        }
+        else {
+            NumberOfRows = true;
+            $("table[id='example']").each(function () {
+                $(this).dataTable().fnDestroy();
+                $(this).find("tbody tr ").each(function () { $(this).remove() });
+            })
+            GetInvoicesData(shift_id);
+            var table = $('table[id="example"]').DataTable({
+
+                'responsive': true
+
+            });
+
+            // Handle click on "Expand All" button
+            $('#btn-show-all-children').on('click', function () {
+                // Expand row details
+                table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+            });
+
+            // Handle click on "Collapse All" button
+            $('#btn-hide-all-children').on('click', function () {
+                // Collapse row details
+                table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+            });
+        }
+
+    }
+    
+</script>
+
+<br /><br /><br /><br />

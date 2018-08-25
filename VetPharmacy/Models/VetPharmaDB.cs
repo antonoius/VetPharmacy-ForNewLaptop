@@ -24,6 +24,7 @@ namespace VetPharmacy
         public virtual DbSet<Supplier> Suppliers { set; get; }
         public virtual DbSet<SaleMethod> SaleMethods { set; get; }
         public virtual DbSet<UserMe> UserMes { set; get; }
+        public virtual DbSet<Shift> Shifts { set; get; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Invoice>()

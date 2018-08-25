@@ -1,5 +1,6 @@
 namespace VetPharmacy
 {
+    using Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -24,8 +25,10 @@ namespace VetPharmacy
         public int InvoiceDiscount { set; get; }
 
         public int InvoiceType_id { get; set; }
+        public int Shift_id { set; get; }
 
         public virtual InvoiceType InvoiceType { get; set; }
+        public virtual Shift shift { set; get; }
         public int InvoiceItemNumber { set; get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

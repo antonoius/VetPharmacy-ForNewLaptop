@@ -1,0 +1,339 @@
+﻿@model VetPharmacy.Models.OrderComponent
+@{
+    ViewBag.Title = "test";
+
+}
+
+<h2>test</h2>
+<link href="~/Style/MyStyle.css" rel="stylesheet" />
+@*<link href="~/Style/MyStyle.css" rel="stylesheet" />
+<script src="~/Style/ForTable/jquery-3.3.1.js"></script>
+<script src="~/Style/ForTableWithExpander/datatables.min.js"></script>
+<link href="~/Style/ForTableWithExpander/datatables.min.css" rel="stylesheet" />
+<link href="~/Style/ForTable/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Style/ForTable/dataTables.bootstrap.min.js"></script>
+<link href="~/Style/ForTable/dataTables.bootstrap.min.css" rel="stylesheet" />*@
+
+
+<h3><a target="_blank" href="https://www.gyrocode.com/articles/jquery-datatables-how-to-expand-collapse-all-child-rows/">jQuery DataTables: How to expand/collapse all child rows</a> <small>Responsive extension</small></h3>
+
+<button id="btn-show-all-children" type="button">Expand All</button>
+<button id="btn-hide-all-children" type="button">Collapse All</button>
+<hr>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th class="none"></th>
+            
+        </tr>
+
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            @*<th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>*@
+            <th ></th>
+           
+        </tr>
+
+    </tfoot>
+    <tbody>
+        <tr>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            @*<td>61</td>
+            <td>2011/04/25</td>
+            <td>$320,800</td>*@
+            <td colspan="3" align="center" ><table class="table" id="table2">
+                <thead >
+                   <tr>
+                       <th>col1</th>
+                       <th>col2</th>
+                       <th>col3</th>
+                       <th>col4</th>
+                       <th>col5</th>
+                   </tr>
+                    
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ssssssssss</td>
+                        <td>wwwwwwwww</td>
+                        <td>zzzzzzzzzz</td>
+                        <td>wwwwwwwww</td>
+                        <td>zzzzzzzzzz</td>
+                    </tr>
+                    <tr>
+                        <td>ssssssssss</td>
+                        <td>wwwwwwwww</td>
+                        <td>zzzzzzzzzzz</td>
+                        <td>wwwwwwwww</td>
+                        <td>zzzzzzzzzz</td>
+                    </tr>
+                    <tr>
+                        <td>ssssssssss</td>
+                        <td>wwwwwwwww</td>
+                        <td>wwwwwwwww</td>
+                        <td>wwwwwwwww</td>
+                        <td>zzzzzzzzzz</td>
+                    </tr>
+                </tbody>
+                
+                </table></td>
+        </tr>
+        <tr>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            <td colspan="3" align="center">
+                <table class="table" id="table2">
+                    <thead>
+                        <tr>
+                            <th>col1</th>
+                            <th>col2</th>
+                            <th>col3</th>
+                            <th>col4</th>
+                            <th>col5</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                        </tr>
+                    
+                    </tbody>
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            @*<td>61</td>
+            <td>2011/04/25</td>
+            <td>$320,800</td>*@
+            <td colspan="3" align="center">
+                <table class="table" id="table2">
+                    <thead>
+                        <tr>
+                            <th>col1</th>
+                            <th>col2</th>
+                            <th>col3</th>
+                            <th>col4</th>
+                            <th>col5</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                        </tr>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzzz</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                        </tr>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>wwwwwwwww</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            @*<td>61</td>
+            <td>2011/04/25</td>
+            <td>$320,800</td>*@
+            <td colspan="3" align="center">
+                <table class="table" id="table2">
+                    <thead>
+                        <tr>
+                            <th>col1</th>
+                            <th>col2</th>
+                            <th>col3</th>
+                            <th>col4</th>
+                            <th>col5</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                        </tr>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzzz</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                        </tr>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>wwwwwwwww</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzz</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </td>
+        </tr>
+    
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('table[id="example"]').DataTable({
+            'responsive': true
+        });
+
+        // Handle click on "Expand All" button
+        $('#btn-show-all-children').on('click', function () {
+            // Expand row details
+            table.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+        });
+
+        // Handle click on "Collapse All" button
+        $('#btn-hide-all-children').on('click', function () {
+            // Collapse row details
+            table.rows('.parent').nodes().to$().find('td:first-child').trigger('click');
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+<h3><a target="_blank" href="https://www.gyrocode.com/articles/jquery-datatables-how-to-expand-collapse-all-child-rows/">jQuery DataTables: How to expand/collapse all child rows</a> <small>Responsive extension</small></h3>
+
+<button id="btn-show-all-children" type="button">Expand All</button>
+<button id="btn-hide-all-children" type="button">Collapse All</button>
+<hr>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceId)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceTotalMoney)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceDiscount)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceDate)</th>
+            <th>@Html.DisplayNameFor(model => model.invoices.InvoiceItems)</th>
+            <th class="none"></th>
+
+        </tr>
+
+    </thead>
+    
+    <tbody>
+        <tr>
+            <td>System Architect</td>
+            <td>System Architect</td>
+            <td>System Architect</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            <td colspan="3" align="center">
+                <table class="table" id="table2">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.invoice_items.Shipment.Medicine.MedicineName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.invoice_items.Quantity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.invoice_items.ITemCost)
+                            </th>
+
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.TextBoxFor(model => model.invoice_items.Shipment.Medicine.MedicineName, new { @class = "form-control", @readonly = "readonly" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.invoice_items.Quantity, new { @class = "form-control", @readonly = "readonly" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.invoice_items.ITemCost, new { @class = "form-control", @readonly = "readonly" })
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>zzzzzzzzzzz</td>
+
+                        </tr>
+                        <tr>
+                            <td>ssssssssss</td>
+                            <td>wwwwwwwww</td>
+                            <td>wwwwwwwww</td>
+ 
+
+                        </tr>
+                    </tbody>
+
+                </table>
+            </td>
+        </tr>
+
+
+    </tbody>
+</table>
+
+
+
+
+<tr>
+    <td>Tiger Nixon</td>
+    <td>System Architect</td>
+    <td>Edinburgh</td>
+    @*<td>61</td>
+        <td>2011/04/25</td>
+        <td>$320,800</td>*@
+    <td colspan="3" align="center">
+        <table class="table" id="table2"><thead><tr>
+
+<tr><td>Tiger Nixon</td><td>System Architect</td><td>Edinburgh</td><td colspan="3" align="center"><table class="table" id="table2"><thead><th>col1</th><th>col2</th><th>col3</th><th>col4</th><th>col5</th>
+</tr></thead><tbody><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>zzzzzzzzzzz</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr><tr><td>ssssssssss</td><td>wwwwwwwww</td><td>wwwwwwwww</td><td>wwwwwwwww</td><td>zzzzzzzzzz</td></tr></tbody></table></td></tr>
