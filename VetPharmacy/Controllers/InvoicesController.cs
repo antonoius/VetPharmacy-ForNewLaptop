@@ -272,7 +272,11 @@ namespace VetPharmacy.Controllers
             foreach(InvoiceItem m in InvoiceItemsToSubmet)
             {
                 db.InvoiceItems.Add(m);
-                db.Shipments.Where(x => x.ShipmentId == m.Item_shipment_id).FirstOrDefault().ShipmentRemainderAmount -= m.Quantity;
+                int medicineId = db.Shipments.Where(q => q.ShipmentId == m.Item_shipment_id).FirstOrDefault().ShipmentMedicine_id.Value;
+             
+                   
+                double cap = db.Medicines.Where(mm => mm.MedicineId ==medicineId).FirstOrDefault().MedicineCapacity;
+                db.Shipments.Where(x => x.ShipmentId == m.Item_shipment_id).FirstOrDefault().ShipmentRemainderAmount -=( m.Quantity/cap);
             }
             db.SaveChanges();
             return true;

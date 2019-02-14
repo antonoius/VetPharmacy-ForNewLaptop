@@ -132,5 +132,13 @@ namespace VetPharmacy.Controllers
             }
             base.Dispose(disposing);
         }
+        public ActionResult GetShipmentData(int ShipmentId)
+        {
+       
+            var qw = (from n in db.Shipments
+                      where n.ShipmentId == ShipmentId
+                      select new { n.ShipmentId,n.OriginalPrice, n.ShipmentAmount, n.ShipmentRemainderAmount, n.WholesalePrice }).FirstOrDefault();
+            return Json(qw, JsonRequestBehavior.AllowGet);
+        }
     }
 }

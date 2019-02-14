@@ -265,7 +265,7 @@
                     OriginalPrice: $(this).find("input[id='shipment_OriginalPrice']").val(),
                     TradPrice: $(this).find("input[id='shipment_TradPrice']").val(),
                     WholesalePrice: $(this).find("input[id='shipment_WholesalePrice']").val(),
-                    ShipmentAmount: ($(this).find("input[id='shipment_Medicine_MedicineCapacity']").val() * $(this).find("input[id='shipment_ShipmentAmount']").val()),
+                    ShipmentAmount: ($(this).find("input[id='shipment_ShipmentAmount']").val()),
                     ShipmentMedicine_id: GetMedicineId($(this).find("input[id='medicine_MedicineName']").val())
                 }
                     ShipmentsToSubmet.push(Shipment);

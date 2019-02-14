@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,6 +11,36 @@ using VetPharmacy;
 
 namespace VetPharmacy.Controllers
 {
+    public class MedicineData
+    {
+        public Medicine medicine { set; get;}
+        public List<Shipment>shipments { set; get; }
+        public MedicineData()
+        {
+            medicine = new Medicine();
+            shipments = new List<Shipment>();
+        }
+        
+    }
+    public class Shipment2
+    {
+        public int ShipmentId { get; set; }
+        public int ShipmentAmount { get; set; }
+        public double OriginalPrice { get; set; }
+        public double ShipmentRemainderAmount { get; set; }
+        public double? WholesalePrice { set; get; }
+        public DateTime OrderDate { set; get; }
+    }
+    public class Medicine2
+    {
+        public int MedicineId { get; set; }
+        public string MedicineName { get; set; }
+        public bool IsWholeSale { set; get; }
+        public int Unit_Id { get; set; }
+        public int MedicineCapacity { get; set; }
+        public string Comment { get; set; }
+    }
+
     public class MedicinesController : Controller
     {
         private VetPharmaDB db = new VetPharmaDB();
@@ -145,6 +176,40 @@ namespace VetPharmacy.Controllers
                      where r.UnitId > 0
                      select new { r.UnitId, r.UnitName });
             return Json(a,JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditMedicine ()
+        {
+            return View();  
+        }
+        public ActionResult GetMedicineDate(string medicine_name)
+        {
+            Medicine m = db.Medicines.Where(x => x.MedicineName == medicine_name).FirstOrDefault();
+            MedicineData data = new MedicineData();
+            data.medicine = m;
+            data.medicine.Shipments = null;
+            //data.medicine.Unit = null;
+            List<Medicine2> md2 = new List<Medicine2>();
+            List<Shipment> shipments = new List<Shipment>();
+            List<Shipment2> shipments2 = new List<Shipment2>();
+            shipments = db.Shipments.Where(x => x.ShipmentMedicine_id == m.MedicineId).ToList();
+
+            //int q =  db.Shipments.Where(x => x.ShipmentMedicine_id == m.MedicineId).ToList().Count;
+            for (int x=0;x<shipments.Count;x++)
+            {
+                Shipment2 sh = new Shipment2();
+                sh.ShipmentAmount = shipments[x].ShipmentAmount;
+                sh.OriginalPrice = shipments[x].OriginalPrice;
+                sh.ShipmentRemainderAmount = shipments[x].ShipmentRemainderAmount;
+                sh.WholesalePrice = shipments[x].WholesalePrice;
+                sh.ShipmentId = shipments[x].ShipmentId;
+                sh.OrderDate = shipments[x].Order.OrderDate;
+                shipments2.Add(sh);
+
+            }
+
+
+            return Json(shipments2, JsonRequestBehavior.AllowGet);
         }
     }
 }

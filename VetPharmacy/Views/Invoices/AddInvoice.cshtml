@@ -173,7 +173,7 @@
     }
     function Quantity_cal(counter)
     {
-        debugger;
+        
         var errort = true;
         var UnitCap = [];
         var UnitQuat = [];
@@ -200,11 +200,10 @@
         })
 
         for (x = 0; x < UnitCap.length; x++) {
-            if (UnitQuat[x] >available_quantity[x]) {
+            if ((UnitQuat[x]) > (available_quantity[x] * UnitCap[x])) {
                 errort = false;
              //   alert(UnitQuat[x] +"/"+ available_quantity[x])
-                alert("الكميه المحدده اكبر من كميه الشحنه .");
-                
+                alert("الكميه المحدده اكبر من كميه الشحنه .");                
                 $("#invoice_InvoiceTotalMoney").val(0);
 
             }
@@ -381,7 +380,7 @@
             InvoiceItemNumber: $("#invoice_InvoiceItemNumber").val(),
             InvoiceType_id:InvoiceType
         }
-        console.log(InvoiceToSubmet);
+        
         var DataFromServerToSubmet =[];
         $.ajax({
 
@@ -431,7 +430,7 @@
             }
 
         });
-
+        console.log(InvoiceItemsToSubmet);
     }
     function GetItemsDataFromTable( Invoice_id)
         {
